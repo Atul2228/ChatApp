@@ -1,6 +1,10 @@
 package routes
 
-import "github.com/gin-gonic/gin"
+import (
+	"log"
+
+	"github.com/gin-gonic/gin"
+)
 
 func userRoutes(router *gin.RouterGroup) {
 	router.GET("/users", func(c *gin.Context) {
@@ -28,6 +32,7 @@ func noPageFound(c *gin.Context) {
 	c.JSON(404, gin.H{
 		"message": "Route not found",
 	})
+	log.Printf("%s is not found", c.Request.URL.Path)
 }
 
 func SetupRouter(engine *gin.Engine) {
