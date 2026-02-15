@@ -8,7 +8,8 @@ import (
 )
 
 type Config struct {
-	Port string
+	Port        string
+	DatabaseURL string
 }
 
 func LoadConfig() *Config {
@@ -18,6 +19,7 @@ func LoadConfig() *Config {
 		log.Fatal("Error loading .env file")
 	}
 	return &Config{
-		Port: os.Getenv("APP_PORT"),
+		Port:        os.Getenv("APP_PORT"),
+		DatabaseURL: os.Getenv("APP_DATABASE_URL"), // Add this line!
 	}
 }

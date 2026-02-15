@@ -3,6 +3,7 @@ package main
 import (
 	"ChatApp/config"
 	"ChatApp/routes"
+	"fmt"
 	"log"
 
 	"github.com/gin-gonic/gin"
@@ -10,9 +11,11 @@ import (
 
 func main() {
 	cfg := config.LoadConfig()
+	fmt.Print("this")
+	db := config.ConnectDB(cfg.DatabaseURL)
 	engine := gin.Default()
 
-	routes.SetupRouter(engine)
+	routes.SetupRouter(engine, db)
 
 	err := engine.Run(":" + cfg.Port)
 	if err != nil {

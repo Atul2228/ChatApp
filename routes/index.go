@@ -1,17 +1,15 @@
 package routes
 
 import (
+	"ChatApp/routes/users"
 	"log"
 
 	"github.com/gin-gonic/gin"
+	"go.mongodb.org/mongo-driver/v2/mongo"
 )
 
-func userRoutes(router *gin.RouterGroup) {
-	router.GET("/users", func(c *gin.Context) {
-		c.JSON(200, gin.H{
-			"message": "List of users",
-		})
-	})
+func userRoutes(router *gin.RouterGroup, db *mongo.Client) {
+	users.SetupUserRoutes(router, db)
 
 }
 
@@ -35,8 +33,9 @@ func noPageFound(c *gin.Context) {
 	log.Printf("%s is not found", c.Request.URL.Path)
 }
 
-func SetupRouter(engine *gin.Engine) {
-	userRoutes(engine.Group("/api"))
+func SetupRouter(engine *gin.Engine, db *mongo.Client) {
+	apiGroup := engine.Group("/api")
+	userRoutes(apiGroup, db)
 	healthCheckRoute(engine.Group("/"))
 	engine.NoRoute(noPageFound)
 
